@@ -1,0 +1,30 @@
+* i'm on a windows 11 machine, the commands i used are the following:
+
+docker run --rm -it ubuntu bash -c "while true; do echo 'Input website:'; read website; echo 'Searching..'; sleep 1; curl http://$website; done"
+
+* curl command was not found, so i created a terminal session on the container and installed curl package:
+
+docker exec -it 14b86e bash
+
+apt-get update && apt-get install curl
+
+* the program was still not working i was getting the following error:
+
+curl: (3) URL using bad/illegal format or missing URL
+
+* the problem was powershell recognized $website as a variable, so i had to skip it using the following syntax:
+
+docker run --rm -it ubuntu bash -c "while true; do echo 'Input website:'; read website; echo 'Searching..'; sleep 1; curl http://`$website; done"
+
+* program finally worked out, showing the following output when setting helsinki.fi as an input:
+
+Input website:
+helsinki.fi
+Searching..
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx/1.20.1</center>
+</body>
+</html>
