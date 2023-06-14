@@ -1,0 +1,7 @@
+* first off, I started the application as suggested using:
+
+docker compose up
+
+* Service was available but test bar didn't turn green, so i added more compute instances by running:
+
+docker-compose up --scale compute=3

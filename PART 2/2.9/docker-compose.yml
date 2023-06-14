@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+    
+    web:
+      image: nginx
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+      ports:
+        - "80:80"
+      container_name: nginx
+
+    simple-webapp-front:
+      build: ./example-frontend
+      ports:
+        -  "5000:5000"
+      container_name: webbapp-front
+
+    simple-webapp-back:
+      build: ./example-backend
+      environment:
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=db
+      ports:
+        -  "8080:8080"
+      container_name: webapp-back
+
+    redis:
+      image: redis
+      container_name: redis
+
+    db:
+      image: postgres
+      restart: always
+      volumes:
+        - ./database:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_PASSWORD=postgres
+      container_name: db

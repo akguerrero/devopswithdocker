@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+    
+    web:
+      image: nginx
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+      ports:
+        - "80:80"
+      container_name: nginx
+      networks:
+        - my-net
+
+    webbapp-front:
+      build: ./example-frontend
+      container_name: webbapp-front
+      networks:
+        - my-net
+
+    webapp-back:
+      build: ./example-backend
+      environment:
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=db
+      container_name: webapp-back
+      networks:
+        - my-net
+
+    redis:
+      image: redis
+      container_name: redis
+      networks:
+        - my-net
+
+    db:
+      image: postgres
+      restart: always
+      volumes:
+        - ./database:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_PASSWORD=postgres
+      container_name: db
+      networks:
+        - my-net
+
+networks:
+  my-net:
+    driver: bridge

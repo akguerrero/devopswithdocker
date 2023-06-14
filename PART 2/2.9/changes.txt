@@ -1,0 +1,7 @@
+By using the developer console in my browser i notice that each button was intended to send a http request to the defined backend url, so I change the REACT_APP_BACKEND_URL frontend environment variable, i set it as follows:
+
+REACT_APP_BACKEND_URL="http://localhost/api/"
+
+I had to use: docker compose build
+
+And then: docker compose up
